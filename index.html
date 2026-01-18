@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Purely Acai | Norfolk, NE</title>
+    <meta name="description" content="Norfolk's first premium organic acai bar. Hand-crafted bowls with fresh fruit, local honey, and zero fillers. Gluten-free and dairy-free options available.">
+    
+    <link rel="icon" type="image/png" href="images/icon.png">
+
+    <meta property="og:title" content="Purely Acai | Taste the Obsession">
+    <meta property="og:description" content="Norfolk's premium organic acai. Fresh fruit, no fillers, and built by you.">
+    <meta property="og:image" content="images/instapost.png"> <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Purely Acai">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 0. CONFIGURATION & VARIABLES --- */
+        :root {
+            --berry: #63254f;
+            --plum: #3a132e;
+            --neon-pink: #b33b9f;
+            --soft-pink: #d4a5a5;
+            --ice: #fff5f5;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 15px 40px rgba(58, 19, 46, 0.15);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--ice);
+            color: var(--plum);
+            overflow-x: hidden;
+        }
+
+        /* --- 1. PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--berry); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .loader-content { text-align: center; color: var(--white); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0.5; transform: scale(0.95); } }
+
+        /* --- 2. HEADER & MOBILE NAV --- */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 1rem 5%; transition: 0.3s ease;
+            backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo-img { height: 70px; width: auto; }
+
+        /* Desktop Nav */
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-links a { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--berry); }
+        
+        .btn-order {
+            background: var(--berry); color: var(--white);
+            padding: 0.8rem 1.5rem; border-radius: 50px;
+            font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(99, 37, 79, 0.3);
+            transition: 0.2s;
+        }
+        .btn-order:hover { transform: translateY(-2px); }
+
+        /* Mobile Hamburger */
+        .hamburger { display: none; cursor: pointer; z-index: 1001; }
+        .bar { width: 25px; height: 3px; background-color: var(--berry); margin: 5px 0; transition: 0.4s; }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background: var(--white); z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.4s ease;
+        }
+        .mobile-menu.active { right: 0; }
+        .mobile-link { font-size: 2rem; font-weight: 900; margin: 1.5rem 0; color: var(--berry); }
+
+        /* --- 3. HERO --- */
+        .hero {
+            position: relative; height: 100vh;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            background-image: url('images/acaibowl.jpg');
+            background-attachment: fixed; background-position: center; background-size: cover;
+        }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(58, 19, 46, 0.85), rgba(99, 37, 79, 0.6)); }
+        
+        .hero-content { position: relative; z-index: 2; color: var(--white); padding: 0 20px; }
+        .hero-tag { display: inline-block; background: var(--neon-pink); padding: 5px 15px; border-radius: 20px; font-weight: 700; margin-bottom: 1rem; font-size: 0.8rem; }
+        .hero h1 { font-size: 4rem; line-height: 1; margin-bottom: 1rem; font-weight: 900; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; color: #ffebf5; }
+
+        /* --- 4. MARQUEE --- */
+        .marquee-container { background: var(--plum); color: var(--white); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+        .marquee-item { font-size: 1rem; font-weight: 900; margin: 0 1.5rem; text-transform: uppercase; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- 5. HOW IT WORKS (NEW SECTION) --- */
+        .process-section { padding: 5rem 5%; text-align: center; background: var(--white); }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--berry); }
+        
+        .steps-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem; margin-top: 3rem;
+        }
+        .step-card { padding: 2rem; }
+        .step-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+        .step-title { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--berry); }
+        .step-desc { font-size: 0.9rem; color: #666; }
+
+        /* --- 6. MENU SECTION --- */
+        .menu-section { padding: 5rem 5%; max-width: 1300px; margin: 0 auto; }
+        
+        /* Filters */
+        .filter-container { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .filter-btn {
+            background: transparent; border: 2px solid var(--berry); color: var(--berry);
+            padding: 0.5rem 1.2rem; border-radius: 30px; font-weight: 700; font-size: 0.9rem;
+        }
+        .filter-btn.active { background: var(--berry); color: var(--white); }
+
+        /* Cards */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .menu-card {
+            background: var(--white); border-radius: 20px; overflow: hidden;
+            box-shadow: var(--shadow); transition: 0.3s;
+        }
+        .card-img { height: 250px; overflow: hidden; position: relative; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .price-badge { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); padding: 5px 12px; border-radius: 10px; font-weight: 800; color: var(--berry); }
+        .card-body { padding: 1.5rem; }
+        .pill { font-size: 0.7rem; background: var(--ice); padding: 4px 8px; border-radius: 4px; color: var(--berry); font-weight: 700; margin-right: 5px; }
+
+        /* --- 7. TESTIMONIALS (NEW SECTION) --- */
+        .reviews-section { padding: 5rem 5%; background: var(--berry); color: var(--white); text-align: center; }
+        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .review-card { background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; text-align: left; }
+        .stars { color: #FFD700; margin-bottom: 1rem; display: block; }
+        .review-text { font-style: italic; margin-bottom: 1rem; line-height: 1.6; }
+        .review-author { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; color: var(--soft-pink); }
+
+        /* --- 8. SOCIAL SECTION --- */
+        .social-section { display: flex; flex-wrap: wrap; }
+        .social-half { flex: 1; min-width: 350px; }
+        .social-content { background: var(--plum); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .social-image { background: url('images/instapost.png') center/cover; min-height: 400px; }
+        .insta-btn { display: inline-block; background: var(--white); color: var(--berry); padding: 1rem 2rem; border-radius: 5px; font-weight: 700; margin-top: 1rem; text-decoration: none; }
+
+        /* --- 9. FOOTER --- */
+        footer { background: #220a1a; color: #888; padding: 4rem 5%; text-align: center; }
+        .newsletter-box { max-width: 400px; margin: 0 auto 3rem auto; }
+        .newsletter-input { width: 70%; padding: 10px; border: none; border-radius: 4px 0 0 4px; outline: none; }
+        .newsletter-btn { width: 30%; padding: 10px; border: none; background: var(--neon-pink); color: white; border-radius: 0 4px 4px 0; font-weight: 700; cursor: pointer; }
+        
+        /* --- MOBILE STICKY BUTTON --- */
+        .mobile-sticky-btn {
+            display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; background: var(--neon-pink); color: white; text-align: center;
+            padding: 1rem; border-radius: 50px; font-weight: 800; text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 9999; text-decoration: none;
+        }
+
+        /* --- MEDIA QUERIES (THE FIX) --- */
+        @media (max-width: 768px) {
+            .nav-links, .btn-order { display: none; } /* Hide desktop nav */
+            .hamburger { display: block; } /* Show mobile toggle */
+            
+            .hero h1 { font-size: 2.8rem; }
+            .hero { background-attachment: scroll; } /* Better performance on mobile */
+            
+            .mobile-sticky-btn { display: block; } /* Show sticky button */
+            body { padding-bottom: 80px; } /* Space for sticky button */
+            
+            .social-half { width: 100%; min-width: auto; }
+            .social-image { height: 300px; }
+            
+            .step-card { padding: 1rem; border-bottom: 1px solid #eee; }
+            .step-card:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-content">
+            <h3>PURELY ACAI</h3>
+        </div>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <a href="#"><img src="images/logo.png" alt="Logo" class="logo-img"></a>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#process">How It Works</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+            </ul>
+            <a href="#menu" class="btn-order">Order Now</a>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" class="mobile-link" onclick="toggleMenu()">Home</a>
+        <a href="#menu" class="mobile-link" onclick="toggleMenu()">Menu</a>
+        <a href="#process" class="mobile-link" onclick="toggleMenu()">Process</a>
+        <a href="#about" class="mobile-link" onclick="toggleMenu()">Social</a>
+    </div>
+
+    <section id="home" class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tag">OPENING 2026</span>
+            <h1>PURELY<br>OBSESSED.</h1>
+            <p>Norfolk's first premium organic acai bar.</p>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span class="marquee-item">Organic Base</span> • 
+            <span class="marquee-item">Fresh Fruit Daily</span> • 
+            <span class="marquee-item">Local Honey</span> • 
+            <span class="marquee-item">Gluten Free</span> • 
+            <span class="marquee-item">Purely Acai</span> • 
+            <span class="marquee-item">Norfolk, NE</span>
+        </div>
+    </div>
+
+    <section id="process" class="process-section">
+        <div class="section-header">
+            <h2>The Process</h2>
+            <p>Built by you, blended by us.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <span class="step-icon">🥣</span>
+                <h3 class="step-title">1. The Base</h3>
+                <p class="step-desc">Start with our organic, dairy-free acai sorbet.</p>
+            </div>
+             <div class="step-card">
+                <span class="step-icon">🥜</span>
+                <h3 class="step-title">2. The Crunch</h3>
+                <p class="step-desc">Add granola, nuts, or seeds for texture.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-icon">🍓</span>
+                <h3 class="step-title">3. The Fruit</h3>
+                <p class="step-desc">Pick 3 fresh fruits. Sliced daily, never frozen.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-icon">🍯</span>
+                <h3 class="step-title">4. The Drizzle</h3>
+                <p class="step-desc">Top it off with local honey, agave, or peanut butter.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu-section">
+        <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+            <h2>Signature Bowls</h2>
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterMenu('all')">All</button>
+            <button class="filter-btn" onclick="filterMenu('fruity')">Fruity</button>
+            <button class="filter-btn" onclick="filterMenu('protein')">Protein</button>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-card fruity">
+                <div class="card-img"><img src="images/ThePureBowl.jpg" alt="Pure Bowl"><span class="price-badge">$10</span></div>
+                <div class="card-body">
+                    <h3>The Pure Bowl</h3>
+                    <div style="margin-bottom: 10px;"><span class="pill">BERRY</span><span class="pill">CLASSIC</span></div>
+                    <p>Strawberry, Banana, Blueberry, Granola.</p>
+                </div>
+            </div>
+            <div class="menu-card fruity">
+                <div class="card-img"><img src="images/TheSunkissedBowl.jpg" alt="Sun Kissed"><span class="price-badge">$11</span></div>
+                <div class="card-body">
+                    <h3>The Sun-Kissed</h3>
+                    <div style="margin-bottom: 10px;"><span class="pill">TROPICAL</span><span class="pill">SWEET</span></div>
+                    <p>Mango, Pineapple, Honey, Coconut.</p>
+                </div>
+            </div>
+            <div class="menu-card protein">
+                <div class="card-img"><img src="images/ThePowerHouse.jpg" alt="Powerhouse"><span class="price-badge">$12</span></div>
+                <div class="card-body">
+                    <h3>The Powerhouse</h3>
+                    <div style="margin-bottom: 10px;"><span class="pill">PROTEIN</span><span class="pill">RICH</span></div>
+                    <p>Peanut Butter, Cacao, Banana.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="reviews-section">
+        <h2>The Word on the Street</h2>
+        <div class="review-grid">
+            <div class="review-card">
+                <span class="stars">★★★★★</span>
+                <p class="review-text">"Finally a real acai place in Norfolk! The fruit is actually fresh and the honey drizzle is everything."</p>
+                <span class="review-author">- Sarah J.</span>
+            </div>
+            <div class="review-card">
+                <span class="stars">★★★★★</span>
+                <p class="review-text">"The Powerhouse bowl is my go-to after the gym. Huge portions and tastes amazing."</p>
+                <span class="review-author">- Mike T.</span>
+            </div>
+            <div class="review-card">
+                <span class="stars">★★★★★</span>
+                <p class="review-text">"Love the vibe and the branding. Definitely the coolest spot in town right now."</p>
+                <span class="review-author">- Emily R.</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="social-section">
+        <div class="social-half social-content">
+            <h2>Join the Club</h2>
+            <p>Follow us for secret menu drops and location updates.</p>
+            <a href="#" class="insta-btn">@PurelyAcai</a>
+        </div>
+        <div class="social-half social-image"></div>
+    </section>
+
+    <footer>
+        <div class="newsletter-box">
+            <h4 style="color:white; margin-bottom:10px;">Get Free Toppings</h4>
+            <div style="display:flex;">
+                <input type="email" placeholder="Your Email" class="newsletter-input">
+                <button class="newsletter-btn">JOIN</button>
+            </div>
+        </div>
+        <p>© 2026 Purely Acai. Norfolk, NE.</p>
+    </footer>
+
+    <a href="#menu" class="mobile-sticky-btn">Order Now</a>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => preloader.style.visibility = 'hidden', 500);
+        });
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const bars = document.querySelectorAll('.bar');
+            
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                bars[1].style.opacity = '1';
+                bars[0].style.transform = 'none';
+                bars[2].style.transform = 'none';
+            } else {
+                menu.classList.add('active');
+                bars[1].style.opacity = '0';
+                bars[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
+                bars[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
+            }
+        }
+
+        // Filter Logic
+        function filterMenu(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.toLowerCase().includes(category) || (category === 'all' && btn.textContent.includes('All'))) {
+                    btn.classList.add('active');
+                }
+            });
+
+            const cards = document.querySelectorAll('.menu-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
